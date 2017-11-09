@@ -1,0 +1,114 @@
+version: "2"
+
+services:
+  postgresql:
+    container_name: 'homeland_postgresql'
+    image: postgres:9.5-alpine
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./data/postgresql:/var/lib/postgresql/data
+
+  redis:
+    container_name: 'homeland_redis'
+    image: redis:3.2.7-alpine
+    mem_limit: 64m
+    ports:
+      - '6379:6379'
+    volumes:
+      - ./data/redis:/data
+
+  memcached:
+    image: memcached:1.4.31-alpine
+    mem_limit: 64m
+    command: memcached -m 64
+    ports:
+      - '11211'
+
+  elasticsearch:
+    container_name: 'homeland_elasticsearch'
+    image: elasticsearch:5-alpine
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms64m -Xmx128m"
+    mem_limit: 128m
+    volumes:
+      - ./data/elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - '9200'
+      - '9300'
+
+  web:
+    container_name: 'homeland_web'
+    image: homeland/homeland:3.0.10
+    links:
+      - app
+      - worker
+    env_file:
+      - app.default.env
+      - app.local.env
+      - app.secret.env
+    command: nginx -c /etc/nginx/nginx.conf
+    volumes:
+      - ./etc/ssl/homeland:/etc/ssl/homeland
+      - ./etc/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./etc/nginx/html:/etc/nginx/html
+      - ./etc/nginx/homeland.conf:/etc/nginx/conf.d/homeland.conf
+      - ./etc/nginx/conf.d/homeland:/etc/nginx/conf.d/homeland
+      - ./shared/ssl:/var/www/ssl
+      - ./shared/cache/assets:/var/www/homeland/public/assets
+      - ./data/uploads:/var/www/homeland/public/uploads
+      - ./shared/cache/uploads-thumb:/var/www/cache/uploads-thumb
+      - ./shared/system:/var/www/homeland/public/system
+      - ./log:/var/www/log
+      - ./tmp/pids:/var/www/pids
+      - ./tmp/pids:/var/www/homeland/tmp/pids
+    ports:
+      - "80:80"
+      - "443:443"
+
+  app: &app_base
+    container_name: 'homeland_app'
+    image: homeland/homeland:3.0.10
+    env_file:
+      - app.default.env
+      - app.local.env
+      - app.secret.env
+    links:
+      - elasticsearch
+      - postgresql
+      - memcached
+      - redis
+    logging:
+      options:
+        max-size: "1g"
+        max-file: "10"
+    volumes:
+      - ./config/cable.yml:/var/www/homeland/config/cable.yml
+      - ./config/config.yml:/var/www/homeland/config/config.yml
+      - ./config/database.yml:/var/www/homeland/config/database.yml
+      - ./config/elasticsearch.yml:/var/www/homeland/config/elasticsearch.yml
+      - ./config/memcached.yml:/var/www/homeland/config/memcached.yml
+      - ./config/redis.yml:/var/www/homeland/config/redis.yml
+      - ./config/secrets.yml:/var/www/homeland/config/secrets.yml
+      - ./config/puma.rb:/var/www/homeland/config/puma.rb
+      - ./shared/ssl:/var/www/ssl
+      - ./shared/cache/assets:/var/www/homeland/public/assets
+      - ./shared/.well-known:/var/www/homeland/public/.well-known
+      - ./data/uploads:/var/www/homeland/public/uploads
+      - ./shared/cache/uploads-thumb:/var/www/cache/uploads-thumb
+      - ./shared/system:/var/www/homeland/public/system
+      - ./log:/var/www/log
+      - ./log:/var/www/homeland/log
+      - ./tmp:/var/www/homeland/tmp
+      - ./tmp/pids:/var/www/pids
+      - ./tmp/pids:/var/www/homeland/tmp/pids
+    command: bundle exec puma -C config/puma.rb
+    ports:
+      - "7000:7000"
+
+  worker:
+    <<: *app_base
+    container_name: 'homeland_worker'
+    ports: []
+    command: bundle exec sidekiq -C config/sidekiq.yml -L /var/www/log/sidekiq.log
