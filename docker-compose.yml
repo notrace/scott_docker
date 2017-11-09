@@ -43,7 +43,7 @@ services:
     image: homeland/homeland:3.0.10
     links:
       - app
-      - vcimx
+      - vcmix
       - worker
     env_file:
       - app.default.env
