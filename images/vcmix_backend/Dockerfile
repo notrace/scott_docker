@@ -1,4 +1,4 @@
-# NAME:     homeland/vcmix_backend
+# NAME:     vcmix_backend/vcmix_backend
 FROM homeland/base:0.2.3
 MAINTAINER Chi Sun "https://github.com/notrace1119"
 
