@@ -1,0 +1,1 @@
+docker build -t vcmix_backend/vcmix_backend:latest .
