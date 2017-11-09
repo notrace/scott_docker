@@ -81,7 +81,7 @@ services:
 
   vcmix:
     container_name: 'homeland_vcmix'
-    image: vcmix_backend/vcmix_backend:3.0.10
+    dockerfile: ./images/vcmix_backend/dockerfile
     env_file:
       - app.default.env
       - app.local.env
