@@ -62,7 +62,6 @@ services:
       - ./shared/cache/assets:/var/www/homeland/public/assets
       - ./data/uploads:/var/www/homeland/public/uploads
       - ./shared/cache/uploads-thumb:/var/www/cache/uploads-thumb
-      - ./shared/cache/uploads-thumb-vcmix:/var/www/cache/uploads-thumb-vcmix
       - ./shared/system:/var/www/homeland/public/system
       - ./log:/var/www/log
       - ./tmp/pids:/var/www/pids
@@ -70,7 +69,7 @@ services:
       - ./shared/vcmix_backend/cache/assets:/var/www/vcmix_backend/public/assets
       - ./shared/vcmix_backend/.well-known:/var/www/vcmix_backend/public/.well-known
       - ./data/vcmix_backend/uploads:/var/www/vcmix_backend/public/uploads
-      - ./shared/cache/uploads-thumb-vcmix:/var/www/cache/uploads-thumb-vcmix
+      - ./shared/vcmix_backend/cache/uploads-thumb:/var/www/cache/uploads-thumb
       - ./shared/vcmix_backend/system:/var/www/vcmix_backend/public/system
       - ./log/vcmix_backend:/var/www/log/vcmix_backend
       - ./log/vcmix_backend:/var/www/vcmix_backend/log
