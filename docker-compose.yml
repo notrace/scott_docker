@@ -76,7 +76,7 @@ services:
       - "80:80"
       - "443:443"
   worker:
-    container_name: 'homeland_vcmix'
+    container_name: 'homeland_work'
     build:
       context: ./images/vcmix_backend
       dockerfile: Dockerfile
