@@ -75,6 +75,17 @@ services:
     ports:
       - "80:80"
       - "443:443"
+  worker:
+    container_name: 'homeland_vcmix'
+    build:
+      context: ./images/vcmix_backend
+      dockerfile: Dockerfile
+    command: bundle exec rake environment resque:work QUEUE=*
+    volumes-from:
+      - vcmix
+    links:
+      - postgresql
+      - redis
 
   vcmix:
     container_name: 'homeland_vcmix'
