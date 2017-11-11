@@ -10,7 +10,7 @@ ENV HOMELAND_VERSION '3.0.10'
 RUN useradd ruby -s /bin/bash -m -U &&\
     mkdir -p /var/www &&\
     cd /var/www &&\
-    git clone --branch v1.0.6 https://sunchi123:19861119@git.coding.net/sunchi123/vcmix_backend.git --depth 1
+    git clone --branch v1.0.7 https://sunchi123:19861119@git.coding.net/sunchi123/vcmix_backend.git --depth 1
 RUN cd /var/www/vcmix_backend && bundle install --deployment &&\
     find /var/www/vcmix_backend/vendor/bundle -name tmp -type d -exec rm -rf {} + &&\
     chown -R ruby:ruby /var/www
