@@ -13,7 +13,6 @@ install_vcmix:
 	@$(RUN_VCMIX) bundle exec rails db:migrate
 	@$(RUN_VCMIX) bundle exec rails db:seed
 	@$(RUN_VCMIX) bundle exec rails assets:precompile RAILS_ENV=production
-	@make reindex	
 install:
 	@make secret
 	@touch app.local.env
