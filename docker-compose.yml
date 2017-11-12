@@ -60,7 +60,7 @@ services:
       context: ./images/vcmix_backend
       dockerfile: Dockerfile
     command: bundle exec rake environment resque:work QUEUE=*
-    volumes-from:
+    volumes_from:
       - vcmix
     links:
       - postgresql
