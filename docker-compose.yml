@@ -21,7 +21,6 @@ services:
     container_name: 'homeland_web'
     image: homeland/homeland:3.0.10
     links:
-      - app
       - vcmix
       - worker
     env_file:
