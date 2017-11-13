@@ -99,6 +99,7 @@ services:
         max-size: "1g"
         max-file: "10"
     volumes:
+      - ./music_backend/Gemfile:/var/www/music_backend/Gemfile
       - ./music_backend/config/database.yml:/var/www/music_backend/config/database.yml
       - ./music_backend/config/redis.yml:/var/www/music_backend/config/redis.yml
       - ./music_backend/config/secrets.yml:/var/www/music_backend/config/secrets.yml
