@@ -81,3 +81,34 @@ services:
     command: bundle exec puma -C config/puma.rb
     ports:
       - "7001:7001"
+
+  music:
+    container_name: 'homeland_music'
+    build:
+      context: ./images/music_backend
+      dockerfile: Dockerfile
+    env_file:
+      - app.default.env
+      - app.local.env
+      - app.secret.env
+    links:
+      - postgresql
+      - redis
+    logging:
+      options:
+        max-size: "1g"
+        max-file: "10"
+    volumes:
+      - ./music_backend/config/database.yml:/var/www/music_backend/config/database.yml
+      - ./music_backend/config/redis.yml:/var/www/music_backend/config/redis.yml
+      - ./music_backend/config/secrets.yml:/var/www/music_backend/config/secrets.yml
+      - ./music_backend/config/puma.rb:/var/www/music_backend/config/puma.rb
+      - ./shared/music_backend/cache/assets:/var/www/music_backend/public/assets
+      - ./data/music_backend/uploads:/var/www/music_backend/public/uploads
+      - ./log/music_backend:/var/www/music_backend/log
+      - ./log/music_backend:/var/www/log/
+      - ./tmp/music_backend:/var/www/music_backend/tmp
+      - ./tmp/music_backend/pids:/var/www/pids/
+    command: bundle exec puma -C config/puma.rb
+    ports:
+      - "7002:7002"
