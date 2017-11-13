@@ -4,6 +4,7 @@ RUN_WEB = docker-compose run web
 ACME = /root/.acme.sh/acme.sh
 ACME_HOME = --home /var/www/ssl
 RUN_VCMIX = docker-compose run vcmix
+RUN_MUSIC = docker-compose run music
 
 install_vcmix:
 	@make secret
@@ -13,6 +14,14 @@ install_vcmix:
 	@$(RUN_VCMIX) bundle exec rails db:migrate
 	@$(RUN_VCMIX) bundle exec rails db:seed
 	@$(RUN_VCMIX) bundle exec rails assets:precompile RAILS_ENV=production
+install_music:
+	@make secret
+	@touch app.local.env
+	@$(RUN_MUSIC) bundle install --retry=3 --jobs=2
+	@$(RUN_MUSIC) bundle exec rails db:create
+	@$(RUN_MUSIC) bundle exec rails db:migrate
+	@$(RUN_MUSIC) bundle exec rails db:seed
+	@$(RUN_MUSIC) bundle exec rails assets:precompile RAILS_ENV=production
 install:
 	@make secret
 	@touch app.local.env
