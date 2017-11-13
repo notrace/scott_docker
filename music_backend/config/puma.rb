@@ -1,10 +1,9 @@
-app_root = '/var/www/vcmix_backend'
-pidfile "/var/www/pids/vcmix_backend_puma.pid"
-state_path "/var/www/pids/vcmix_backend_puma.state"
-bind 'unix:/var/www/pids/vcmix_backend.sock'
-stdout_redirect "/var/www/log/puma-vcmix_backend.stdout.log", "/var/www/log/puma-vcmix_backend.stderr.log", true
+app_root = '/var/www/music_backend'
+pidfile "/var/www/pids/music_backend_puma.pid"
+state_path "/var/www/pids/music_backend_puma.state"
+bind 'unix:/var/www/pids/music_backend.sock'
 daemonize false
-port 7001
+port 7002
 environment 'production'
 workers (ENV["workers"] || 4)
 threads (ENV["min_threads"] || 8), (ENV["max_threads"] || 8)

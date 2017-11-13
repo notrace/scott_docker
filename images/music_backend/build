@@ -1,0 +1,1 @@
+docker build -t music_backend/music_backend:latest .
