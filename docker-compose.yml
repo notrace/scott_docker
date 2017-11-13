@@ -36,6 +36,7 @@ services:
       - ./etc/nginx/vcmix_backend.conf:/etc/nginx/conf.d/vcmix_backend.conf
       - ./shared/vcmix_backend/cache/assets:/var/www/vcmix_backend/public/assets
       - ./tmp/vcmix_backend/pids:/var/www/pids
+      - ./shared/cache/uploads-thumb-vcmix:/var/www/cache/uploads-thumb-vcmix
     ports:
       - "80:80"
       - "443:443"
