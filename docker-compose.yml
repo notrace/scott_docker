@@ -22,7 +22,6 @@ services:
     image: homeland/homeland:3.0.10
     links:
       - vcmix
-      - worker
     env_file:
       - app.default.env
       - app.local.env
