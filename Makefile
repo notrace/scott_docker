@@ -18,10 +18,10 @@ install_music:
 	@make secret
 	@touch app.local.env
 	@$(RUN_MUSIC) bundle install --retry=3 --jobs=2
-	@$(RUN_MUSIC) bundle exec rails db:create
-	@$(RUN_MUSIC) bundle exec rails db:migrate
-	@$(RUN_MUSIC) bundle exec rails db:seed
-	@$(RUN_MUSIC) bundle exec rails assets:precompile RAILS_ENV=production
+	@$(RUN_MUSIC) bundle exec rake db:create
+	@$(RUN_MUSIC) bundle exec rake db:migrate
+	@$(RUN_MUSIC) bundle exec rake db:seed
+	@$(RUN_MUSIC) bundle exec rake assets:precompile RAILS_ENV=production
 install:
 	@make secret
 	@touch app.local.env
