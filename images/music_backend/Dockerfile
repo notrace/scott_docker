@@ -10,6 +10,7 @@ ENV HOMELAND_VERSION '3.0.10'
 RUN useradd ruby -s /bin/bash -m -U &&\
     mkdir -p /var/www &&\
     cd /var/www &&\
+    git config --global http.postBuffer 2M &&\
     git clone -b music https://username:passworkd@git.coding.net/sunchi123/lili.git --depth 1 
 RUN cd /var/www/music_backend && bundle install --deployment &&\
     find /var/www/music_backend/vendor/bundle -name tmp -type d -exec rm -rf {} + &&\
