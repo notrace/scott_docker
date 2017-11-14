@@ -2,6 +2,7 @@ app_root = '/var/www/music_backend'
 pidfile "/var/www/pids/music_backend_puma.pid"
 state_path "/var/www/pids/music_backend_puma.state"
 bind 'unix:/var/www/pids/music_backend.sock'
+stdout_redirect "/var/www/log/puma-music_backend.stdout.log", "/var/www/log/puma-music_backend.stderr.log", true
 daemonize false
 port 7002
 environment 'production'
